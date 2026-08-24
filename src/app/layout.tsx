@@ -64,6 +64,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
+        {/* Temporary test - remove Providers */}
         {children}
         <Toaster />
         <ServiceWorkerRegister />

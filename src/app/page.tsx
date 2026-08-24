@@ -1,5 +1,8 @@
 'use client';
 
+import { isAdminLoggedIn, logoutAdmin } from "@/lib/admin-auth";
+import { AdminLoginForm } from "@/components/dashboard/AdminLoginForm";
+
 import { useCallback, useEffect, useState } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -20,7 +23,7 @@ import { QuarterlyReportButton } from '@/components/dashboard/QuarterlyReportBut
 import { PWAInstallPrompt } from '@/components/dashboard/PWAInstallPrompt';
 import { GlossaryPanel } from '@/components/dashboard/GlossaryPanel';
 import { OverviewData, SchoolRow } from '@/lib/types';
-import { Activity, Building2, FlaskConical, Sparkles, UploadCloud, RefreshCw, ClipboardList, Archive, TrendingUp, BookOpen } from 'lucide-react';
+import { Activity, Building2, FlaskConical, Sparkles, UploadCloud, RefreshCw, ClipboardList, Archive, TrendingUp, BookOpen, LogOut } from 'lucide-react';
 
 type TabKey = 'overview' | 'schools' | 'research' | 'twin' | 'survey' | 'archive' | 'trends' | 'glossary' | 'upload';
 
@@ -33,6 +36,13 @@ export default function Home() {
   const [selectedSchoolId, setSelectedSchoolId] = useState<number | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [selectedMonth, setSelectedMonth] = useState<string>('latest');
+
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Check login status when component mounts
+  useEffect(() => {
+    setIsAdmin(isAdminLoggedIn());
+  }, []);
 
   const fetchOverview = useCallback(async (month?: string) => {
     setLoadingOverview(true);
@@ -211,7 +221,30 @@ export default function Home() {
           </TabsContent>
 
           <TabsContent value="upload" className="space-y-4 mt-2">
-            <UploadPanel onUploadCommitted={refreshAll} />
+            {isAdmin ? (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-muted-foreground">
+                    Logged in as <span className="font-medium text-cyan-300">Admin</span>
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      logoutAdmin();
+                      setIsAdmin(false);
+                    }}
+                    className="gap-1.5"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                    Logout
+                  </Button>
+                </div>
+                <UploadPanel onUploadCommitted={refreshAll} />
+              </div>
+            ) : (
+              <AdminLoginForm onSuccess={() => setIsAdmin(true)} />
+            )}
           </TabsContent>
         </Tabs>
       </main>
