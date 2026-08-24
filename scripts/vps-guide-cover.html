@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 794px 1123px; margin: 0; }
+    :root {
+      --c-bg: #ffffff;
+      --c-accent: #0E7C7B;
+      --c-text: #1A1A2E;
+      --c-muted: #6f7578;
+      --c-mid: #496d7e;
+      --c-surface: #f5f7f7;
+    }
+    html, body { margin: 0; padding: 0; width: 794px; height: 1123px; background: var(--c-bg); color: var(--c-text); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    @media screen { html { height: auto; display: flex; justify-content: center; min-height: 100vh; background: #e8e8e8; } body { transform-origin: top center; scale: min(1, calc(100vw / 794), calc(100vh / 1123)); margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.15); } }
+    .cover { width: 794px; height: 1123px; position: relative; box-sizing: border-box; overflow: hidden; }
+    .layer-bg { position: absolute; inset: 0; z-index: 1; overflow: hidden; background-image: linear-gradient(to right, rgba(14,124,123,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(14,124,123,0.03) 1px, transparent 1px); background-size: 50px 50px; }
+    .layer-structure { position: absolute; inset: 0; z-index: 2; }
+    .vline { position: absolute; left: 95px; top: 112px; bottom: 112px; width: 6px; background: var(--c-accent); }
+    .layer-content { position: absolute; inset: 0; z-index: 3; }
+    .kicker { position: absolute; left: 155px; top: 168px; font-size: 11pt; font-weight: 400; letter-spacing: 4px; text-transform: uppercase; color: var(--c-accent); opacity: 0.85; }
+    .title { position: absolute; left: 155px; top: 280px; font-size: 36pt; font-weight: 700; line-height: 1.15; color: var(--c-text); max-width: 520px; letter-spacing: -0.5px; }
+    .subtitle { position: absolute; left: 155px; top: 480px; font-size: 15pt; font-weight: 400; line-height: 1.4; color: var(--c-muted); max-width: 480px; }
+    .summary { position: absolute; left: 155px; top: 560px; font-size: 11pt; font-weight: 400; line-height: 1.65; color: var(--c-text); opacity: 0.78; max-width: 480px; }
+    .meta { position: absolute; left: 155px; top: 842px; font-size: 10pt; color: var(--c-muted); line-height: 1.7; }
+    .meta-row { display: flex; gap: 12px; margin-bottom: 4px; }
+    .meta-label { font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; font-size: 8.5pt; color: var(--c-accent); min-width: 80px; }
+    .meta-value { color: var(--c-text); opacity: 0.85; }
+    .footer-rule { position: absolute; left: 155px; right: 95px; bottom: 135px; height: 1px; background: var(--c-text); opacity: 0.12; }
+    .footer { position: absolute; left: 155px; right: 95px; bottom: 80px; display: flex; justify-content: space-between; align-items: flex-end; font-size: 9pt; color: var(--c-muted); }
+    .footer-left { font-weight: 500; color: var(--c-text); opacity: 0.7; }
+    .footer-right { font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: 1px; }
+    .monogram { position: absolute; top: 95px; right: 95px; text-align: right; font-family: 'JetBrains Mono', monospace; }
+    .monogram-tag { font-size: 8pt; letter-spacing: 2px; color: var(--c-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .monogram-value { font-size: 22pt; font-weight: 700; color: var(--c-accent); letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+  <div class="cover">
+    <div class="layer-bg"></div>
+    <div class="layer-structure"><div class="vline"></div></div>
+    <div class="layer-content">
+      <div class="monogram">
+        <div class="monogram-tag">Guide</div>
+        <div class="monogram-value">VPS</div>
+      </div>
+      <div class="kicker">Technical Deployment Guide</div>
+      <div class="title">VPS Deployment<br>Guide for the RCSI<br>Dashboard</div>
+      <div class="subtitle">Step-by-step instructions for production deployment</div>
+      <div class="summary">
+        This guide covers everything needed to deploy the El Salvador Division RCSI Dashboard to a Virtual Private Server (VPS): server setup, application deployment, web server and SSL configuration, post-deployment tasks, maintenance, and troubleshooting.
+      </div>
+      <div class="meta">
+        <div class="meta-row"><span class="meta-label">Version</span><span class="meta-value">1.0</span></div>
+        <div class="meta-row"><span class="meta-label">Audience</span><span class="meta-value">IT Administrators</span></div>
+        <div class="meta-row"><span class="meta-label">Issued</span><span class="meta-value">2026 &middot; El Salvador Division</span></div>
+      </div>
+      <div class="footer-rule"></div>
+      <div class="footer">
+        <span class="footer-left">Copyright 2026 El Salvador Division</span>
+        <span class="footer-right">RCSI &middot; VPS-GUIDE v1.0</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

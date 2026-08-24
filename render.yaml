@@ -1,0 +1,76 @@
+# Render Configuration for RCSI Dashboard
+# https://render.com/docs/blueprint-spec
+#
+# Deploy steps:
+# 1. Push this codebase to a GitHub repository (private recommended)
+# 2. Go to https://dashboard.render.com → New → Blueprint
+# 3. Select your GitHub repository
+# 4. Render will read this render.yaml file and create the service automatically
+#
+# Key features:
+# - Uses persistent disk for SQLite database (data survives redeploys)
+# - Auto-deploys on every git push
+# - Free tier supported (with limitations)
+# - Custom domain support
+
+services:
+  - type: web
+    name: rcsi-dashboard
+    runtime: node
+    plan: starter  # $7/month — has persistent disk. Free tier has no disk.
+    region: singapore  # Closest to the Philippines
+    branch: main
+    healthCheckPath: /api/overview
+    autoDeploy: true  # Re-deploy on every push to main
+
+    # Build configuration
+    buildCommand: |
+      # Install Bun
+      curl -fsSL https://bun.sh/install | bash
+      export PATH="$HOME/.bun/bin:$PATH"
+
+      # Install dependencies
+      bun install
+
+      # Generate Prisma client
+      bun run db:generate
+
+      # Build the production bundle
+      bun run build:render
+
+    # Start command — ensures the db directory exists before starting
+    startCommand: |
+      export PATH="$HOME/.bun/bin:$PATH"
+
+      # Ensure the db directory exists on the persistent disk
+      mkdir -p /opt/data/db
+
+      # If no database exists yet, create it and push the schema
+      if [ ! -f /opt/data/db/custom.db ]; then
+        echo "Database not found — creating fresh database..."
+        export DATABASE_URL="file:/opt/data/db/custom.db"
+        bunx prisma db push
+        echo "Database created. Run 'bun run scripts/seed.ts' or 'bun run scripts/clean-slate.ts' to populate."
+      fi
+
+      # Set the DATABASE_URL to point to the persistent disk
+      export DATABASE_URL="file:/opt/data/db/custom.db"
+
+      # Start the production server
+      bun run start:render
+
+    # Environment variables
+    envVars:
+      - key: DATABASE_URL
+        value: file:/opt/data/db/custom.db
+      - key: NODE_ENV
+        value: production
+      - key: BUN_INSTALL
+        value: "$HOME/.bun"
+
+    # Persistent disk — this is critical for SQLite
+    # Without this, the database would be wiped on every deploy
+    disk:
+      name: rcsi-data
+      mountPath: /opt/data
+      sizeGB: 1  # 1 GB is more than enough for SQLite + uploaded files

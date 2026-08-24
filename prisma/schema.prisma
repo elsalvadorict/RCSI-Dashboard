@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// A school in the El Salvador Division
+model School {
+  id        Int      @id // matches school_id_no in source files
+  name      String
+  surveys   SurveyScore[]
+  research  ResearchRecord[]
+}
+
+// Quarterly 7-dimension sustainability survey for one school
+// R=Readiness, A=Awareness, C=Capacity, S=Structured Support,
+// I=Institutional Anchoring, P=Community of Practice, M=Impact Realization
+model SurveyScore {
+  id        Int      @id @default(autoincrement())
+  schoolId  Int
+  month     String   // e.g. "2026-01", "2026-04", "2026-07", "2026-10"
+  R         Float
+  A         Float
+  C         Float
+  S         Float
+  I         Float
+  P         Float
+  M         Float
+  rcsi      Float    // computed aggregate
+  milestone Int      // computed 0-6
+  school    School   @relation(fields: [schoolId], references: [id])
+
+  @@unique([schoolId, month])
+}
+
+// A teacher research record (from research_metadata.csv)
+model ResearchRecord {
+  id                   Int      @id @default(autoincrement())
+  uploadDate           String
+  teacherName          String
+  schoolId             Int
+  documentType         String   // abstract | full_paper
+  title                String
+  theme                String
+  status               String   // draft | under_review | submitted | published | rejected
+  publicationLink      String?
+  utilizedBySchool     Boolean  @default(false)
+  utilizationDate      String?
+  yearUndertaken       Int
+  yearsOfService       Int
+  teacherRank          String   // Teacher I/II/III, Master Teacher I/II, School Head
+  educationalAttainment String  // Bachelor's | Master's | Doctorate
+  school               School   @relation(fields: [schoolId], references: [id])
+  batchId              String?  // links to the UploadBatch that imported this record
+
+  @@unique([teacherName, title, yearUndertaken])
+}
+
+// Audit trail of every upload operation (merge or replace)
+model UploadBatch {
+  id           String   @id @default(cuid())
+  timestamp    DateTime @default(now())
+  mode         String   // 'merge' | 'replace'
+  fileName     String
+  detectedKind String   // 'survey' | 'research' | 'unknown'
+  rowCount     Int
+  inserted     Int
+  updated      Int
+  skipped      Int
+  status       String   // 'success' | 'failed'
+  error        String?
+}
+
