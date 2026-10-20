@@ -1,6 +1,6 @@
 const ADMIN_KEY = "rcsi_admin_logged_in";
-const ADMIN_USERNAME = "admin@rcsi";
-const ADMIN_PASSWORD = "RCSI-Admin-2026"; // change this if you want
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME!;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
 export function isAdminLoggedIn(): boolean {
   if (typeof window === "undefined") return false;
