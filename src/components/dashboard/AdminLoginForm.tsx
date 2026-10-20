@@ -18,22 +18,34 @@ export function AdminLoginForm({ onSuccess }: Props) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
 
-    setTimeout(() => {
-      const success = loginAsAdmin(username, password);
-      setLoading(false);
+  try {
+    const response = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
-      if (success) {
-        toast.success("Logged in as Admin");
-        onSuccess();
-      } else {
-        toast.error("Invalid username or password");
-      }
-    }, 400);
-  };
+    const result = await response.json();
+
+    if (!response.ok) {
+      toast.error(result.message || "Login failed");
+      return;
+    }
+
+    toast.success("Credentials verified");
+    onSuccess();
+  } catch {
+    toast.error("Unable to connect to the server");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <Card className="max-w-md mx-auto mt-12 border-cyan-500/30">
