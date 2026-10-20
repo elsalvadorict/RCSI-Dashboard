@@ -99,13 +99,7 @@ export default function Home() {
                 <h1 className="text-base md:text-lg font-bold tracking-tight truncate">
                   El Salvador Division Research Culture Sustainability Index
                 </h1>
-                {/* <span
-                  className="inline-flex items-center gap-1 rounded-full border border-amber-500/50 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-300 whitespace-nowrap"
-                  title="This application is a prototype pending approval from the Division Superintendents. The official El Salvador Division logo will be added upon approval."
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-                  Prototype — For Approval
-                </span> */}
+              
               </div>
               <p className="text-xs text-muted-foreground truncate">
                 RCSI Dashboard · Digital Twin Sandbox · Research Analytics
