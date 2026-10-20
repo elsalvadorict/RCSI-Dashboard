@@ -22,7 +22,6 @@ export function AdminLoginForm({ onSuccess }: Props) {
     e.preventDefault();
     setLoading(true);
 
-    // Small delay just for better UX
     setTimeout(() => {
       const success = loginAsAdmin(username, password);
       setLoading(false);
