@@ -2,7 +2,7 @@
 
 import { isAdminLoggedIn, logoutAdmin } from "@/lib/admin-auth";
 import { AdminLoginForm } from "@/components/dashboard/AdminLoginForm";
-
+import Image from "next/image";
 import { useCallback, useEffect, useState } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -84,21 +84,28 @@ export default function Home() {
       <header className="border-b border-border/40 bg-card/40 backdrop-blur-xl sticky top-0 z-30">
         <div className="mx-auto max-w-[1600px] px-4 md:px-6 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
-              <Activity className="h-5 w-5 text-white" />
+            <div className="h-10 w-10 shrink-0">
+              <Image
+                src="/logo.png"
+                alt="El Salvador Division Logo"
+                width={40}
+                height={40}
+                className="h-10 w-10 object-contain"
+                priority
+              />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-base md:text-lg font-bold tracking-tight truncate">
                   El Salvador Division Research Culture Sustainability Index
                 </h1>
-                <span
+                {/* <span
                   className="inline-flex items-center gap-1 rounded-full border border-amber-500/50 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-300 whitespace-nowrap"
                   title="This application is a prototype pending approval from the Division Superintendents. The official El Salvador Division logo will be added upon approval."
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
                   Prototype — For Approval
-                </span>
+                </span> */}
               </div>
               <p className="text-xs text-muted-foreground truncate">
                 RCSI Dashboard · Digital Twin Sandbox · Research Analytics
