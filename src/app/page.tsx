@@ -86,7 +86,7 @@ export default function Home() {
           <div className="flex items-center gap-3 min-w-0">
             <div className="h-10 w-10 shrink-0">
               <Image
-                src="/logo.png"
+                src="/icon-512.png"
                 alt="El Salvador Division Logo"
                 width={40}
                 height={40}
