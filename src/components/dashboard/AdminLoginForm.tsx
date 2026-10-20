@@ -76,7 +76,7 @@ export function AdminLoginForm({ onSuccess }: Props) {
                 Signing in...
               </>
             ) : (
-              "Sign in as Admin"
+              "Sign in"
             )}
           </Button>
         </form>
